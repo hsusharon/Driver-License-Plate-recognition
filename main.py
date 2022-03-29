@@ -7,21 +7,56 @@ from opencv import *
 from Noiseadder import *
 
 print("1-Generate noise image  2-Plate recognition")
-val = input('Operation:')
-print(val)
-ori_filename = "test/image4.jpg"
-gau_filename = "C:/Users/USER/Documents/Play Ground/Image processing Project/OpenCV/gaussian/gaus_img5.jpg"
-pro_gau_filename = "C:/Users/USER/Documents/Play Ground/Image processing Project/OpenCV/gaussian/pro_gaus_img5.jpg"
-pep_filename = "C:/Users/USER/Documents/Play Ground/Image processing Project/OpenCV/pepper/pepper_img5.jpg"
-pro_pep_filename = "C:/Users/USER/Documents/Play Ground/Image processing Project/OpenCV/pepper/pro_pepper_img5.jpg"
+val = input('Operation : ')
 
+ori_filename = "test/image3.jpg"
+gau_filename = "C:/Users/USER/Documents/School/Semester2/ENEE631 IP/Driver-License-Plate-recognition/gaussian/gaus_img3.jpg"
+pro_gau_filename = "C:/Users/USER/Documents/School/Semester2/ENEE631 IP/Driver-License-Plate-recognition/gaussian/pro_gaus_img3.jpg"
+pep_filename = "C:/Users/USER/Documents/School/Semester2/ENEE631 IP/Driver-License-Plate-recognition/pepper/pepper_img4.jpg"
+pro_pep_filename = "C:/Users/USER/Documents/School/Semester2/ENEE631 IP/Driver-License-Plate-recognition/pepper/pro_pepper_img4.jpg"
+LPF_filename = "C:/Users/USER/Documents/School/Semester2/ENEE631 IP/Driver-License-Plate-recognition/pro_image/LPF.jpg"
+HPF_filename = "C:/Users/USER/Documents/School/Semester2/ENEE631 IP/Driver-License-Plate-recognition/pro_image/HPF.jpg"
+ROB_filename = "C:/Users/USER/Documents/School/Semester2/ENEE631 IP/Driver-License-Plate-recognition/pro_image/ROB.jpg"
+SOL_filename = "C:/Users/USER/Documents/School/Semester2/ENEE631 IP/Driver-License-Plate-recognition/pro_image/SOL.jpg"
 
 if val == '1':
-    noiseadder(ori_filename, gau_filename, pro_gau_filename, pep_filename, pro_pep_filename)
+    val_x = input("Which Process 1-noise adder 2-LPF 3-HPF 4-Edge detection : ")
+    ## Add Gaussian noise and peppered noise
+    if val_x == '1':
+        noiseadder(ori_filename, gau_filename, pro_gau_filename, pep_filename, pro_pep_filename)
+
+    ## Filter with LPF  
+    elif val_x == '2':  
+        img = cv.imread(ori_filename)
+        plt.imshow(img, cmap='gray')
+        plt.show()
+        filterchoice = 'gau'
+        LPF_img = filter_ori(img, filterchoice)
+        cv.imwrite(LPF_filename, LPF_img)
+        plt.imshow(LPF_img, cmap='gray')
+        plt.show()
+    
+    elif val_x == '3':
+        img = cv.imread(LPF_filename)
+        filterchoice = 'lap'
+        HPF_img = filter_ori(img, filterchoice)
+        cv.imwrite(HPF_filename, HPF_img)
+
+    elif val_x == '4':
+        img = cv.imread(ori_filename, 0)
+        filterchoice = 'rob'
+        ROB_img = filter_gray(img, filterchoice)
+        cv.imwrite(ROB_filename, ROB_img)
+
+        filterchoice = 'sol'
+        SOL_img = filter_gray(img, filterchoice)
+        cv.imwrite(SOL_filename, SOL_img)
+
 
 if val == '2':
-    val_x = input("Which image? 1-Orig 2-Gaussain 3-Pepper")
-    val_y = input("Which image? 1-Noisy image 2-Noise reduction image" )
+    val_x = input("Which image? 1-Orig 2-Gaussain 3-Pepper : ")
+    if val_x != '1':
+        val_y = input("Which image? 1-Noisy image 2-Noise reduction image : " )
     ## Process the original image
     if val_x == '1': 
         bifilter_para = (10, 17, 17)
@@ -66,6 +101,7 @@ if val == '2':
         filter = 0
         opencv_self(pro_pep_filename, bifilter_para, canny, poly, contour_val, filter)
     
+
 
 
 

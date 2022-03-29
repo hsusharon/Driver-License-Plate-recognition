@@ -23,7 +23,7 @@ def zeropadding(filter, size):
     return output
 
 def filtering(filterType, img):
-    img_row, img_col = img.shape
+    img_row, img_col= img.shape
     mid_row = math.floor(img_row/2)
     mid_col = math.floor(img_col/2)
 
@@ -35,13 +35,13 @@ def filtering(filterType, img):
                             [4,16,26,16,4], 
                             [7,26,41,26,7],
                             [4,16,26,16,4],
-                            [1,4,7,4,1]])
+                            [1,4,7,4,1]]) /273
         print("LPF Filter")
         print(filter)
         filter_out = np.zeros((img_col, img_row))
         output = np.zeros((img_row, img_col))
-        output = signal.convolve2d(img, filter)
-        output = output /273
+        output = cv.filter2D(src=img, ddepth=-1, kernel=filter)
+        
         return output
 
     ## median filter
@@ -145,7 +145,25 @@ def filter_gray(img_gray, filterchoice):
         return Sob_img
 
 
+def filter_ori(img, filterType):
+    if filterType == 'gau':
+        kernel = np.array([
+                         [1, 1, 1],
+                         [1, 1, 1],
+                         [1, 1, 1]
+                         ]) / 9
+        resulting_image = cv.filter2D(img, -1, kernel)
+        return resulting_image
 
+    elif filterType == 'lap':
+        kernel = np.array([
+                         [ 0, -1,  0],
+                         [-1, 5, -1],
+                         [ 0, -1,  0]
+                         ])
+        resulting_image = cv.filter2D(img, -1, kernel)
+        return resulting_image
+  
 
 
 
