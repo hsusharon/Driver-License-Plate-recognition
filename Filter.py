@@ -79,11 +79,16 @@ def filtering(filterType, img):
         #   0  1
         rows = 2
         col = 2
-        filter = np.array([[-1,0], [0,1]])
-        print("Roberts Filter")
+        filter = np.array([[1,0], [0,-1]])
+        print("Roberts Filter-x")
         print(filter)
         output = np.zeros((img_row, img_col))
         image_sharp = cv.filter2D(src=img, ddepth=-1, kernel=filter)
+
+        filter = np.array([[0,1],[-1,0]])
+        print("Roberts Filter-y")
+        print(filter)
+        image_sharp = cv.filter2D(src=image_sharp, ddepth=-1, kernel=filter)
         # output = signal.convolve2d(img, filter)
         return image_sharp
 
@@ -95,11 +100,17 @@ def filtering(filterType, img):
         rows = 3
         col = 3
         filter = np.array([[-1,0,1], [-2,0,2], [-1,0,1]])
-        print("Sol Filter")
+        print("Sol Filter-x")
         print(filter)
 
         output = np.zeros((img_row, img_col))
         image_sharp = cv.filter2D(src=img, ddepth=-1, kernel=filter)
+
+        filter = np.array([[-1,-2,1], [0,0,0], [1,2,1]])
+        print("Sol Filter-y")
+        print(filter)
+        image_shape = cv.filter2D(src=image_sharp, ddepth=-1, kernel=filter)
+
         # output = signal.convolve2d(img, filter)
         return image_sharp
 
@@ -143,6 +154,10 @@ def filter_gray(img_gray, filterchoice):
         # cv.imshow('Sobel', Sob_img)
         # cv.waitKey(0)
         return Sob_img
+    
+    elif filterchoice == 'can':
+        can = cv.Canny(img_gray, 30, 200)
+        return can
 
 
 def filter_ori(img, filterType):
@@ -153,6 +168,7 @@ def filter_ori(img, filterType):
                          [1, 1, 1]
                          ]) / 9
         resulting_image = cv.filter2D(img, -1, kernel)
+        print("LPF applied")
         return resulting_image
 
     elif filterType == 'lap':
@@ -162,6 +178,7 @@ def filter_ori(img, filterType):
                          [ 0, -1,  0]
                          ])
         resulting_image = cv.filter2D(img, -1, kernel)
+        print("HPF applied")
         return resulting_image
   
 
