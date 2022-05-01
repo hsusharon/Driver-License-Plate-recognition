@@ -8,9 +8,9 @@ very interesting topic.
 
 
 Package required to run the code:
-pytorch, numpy, math, scipy, cv2, easyocr, imutils, matplotlib
+PyTorch, NumPy, math, scipy, cv2, easyocr, imutils, matplotlib
 
-Causion:
+Caution:
 Please change the directory of the file you want to process 
 (directory address are all in main.py line 9-18)
 
@@ -37,4 +37,9 @@ Please clone the whole package to prevent data missing
 Change the directory in main.py(line 9-18) to your own foldername
 run main.py
 
+ML code for car plate license detection is attached in ANPR folder. 
+Transfer learning with VGG19 model accuracy 56.76% (with 75 epochs).
+
 The final report is also attached in the report folder.
+
+The presentation link: https://youtu.be/jwSui3u7CAU
